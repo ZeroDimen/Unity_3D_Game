@@ -1,16 +1,24 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
-public class GameManager : MonoBehaviour
+public class GameManager: Singleton<GameManager>
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    private bool _isCursorLock;
+
+    public void SetCursorLock()
+    {
+        Cursor.visible = _isCursorLock;
+        Cursor.lockState = _isCursorLock ? CursorLockMode.None : CursorLockMode.Locked;
+        _isCursorLock = !_isCursorLock;
+    }
+    
+    protected override void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         
     }
 
-    // Update is called once per frame
-    void Update()
+    protected override void OnSceneUnloaded(Scene scene)
     {
-        
+
     }
 }
