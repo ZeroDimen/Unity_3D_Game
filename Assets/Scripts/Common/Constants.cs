@@ -1,8 +1,21 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public static class Constants
 {
     public const float Gravity = -9.81f;
+    
+    // ----------------------------------------
+    // Game Manager
+    public enum ESceneName
+    {
+        Main, Stage01, Stage02
+    }
+
+    public enum EGameState
+    {
+        None, Play, Pause
+    }
     
     // ----------------------------------------
     // Layer Mask
@@ -22,7 +35,9 @@ public static class Constants
     public static readonly int PlayerAniParamAttack = Animator.StringToHash("attack");
     public static readonly int PlayerAniParamMoveSpeed = Animator.StringToHash("move_speed");
     public static readonly int PlayerAniParamGroundDistance = Animator.StringToHash("ground_distance");
-    
+    public static readonly int PlayerAniParamHit = Animator.StringToHash("hit");
+    public static readonly int PlayerAniParamHitX = Animator.StringToHash("hit_x");
+    public static readonly int PlayerAniParamHitZ = Animator.StringToHash("hit_z");
     
     // ----------------------------------------
     // Enemy 상태
@@ -33,12 +48,18 @@ public static class Constants
     
     // ----------------------------------------
     // Enemy 애니메이터 파라미터
-    public static readonly int EnemyAniParamIdle =  Animator.StringToHash("idle");
-    public static readonly int EnemyAniParamPatrol =  Animator.StringToHash("patrol");
-    public static readonly int EnemyAniParamChase= Animator.StringToHash("chase");
+    public static readonly int EnemyAniParamIdle = Animator.StringToHash("idle");
+    public static readonly int EnemyAniParamPatrol = Animator.StringToHash("patrol");
+    public static readonly int EnemyAniParamChase = Animator.StringToHash("chase");
     public static readonly int EnemyAniParamAttack = Animator.StringToHash("attack");
     public static readonly int EnemyAniParamHit = Animator.StringToHash("hit");
     public static readonly int EnemyAniParamDead = Animator.StringToHash("dead");
     public static readonly int EnemyAniParamMoveSpeed = Animator.StringToHash("move_speed");
-    
+
+    [Serializable]
+    public class WeaponTriggerZone
+    {
+        public Vector3 position;
+        public float radius;
+    }
 }
