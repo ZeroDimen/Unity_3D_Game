@@ -7,11 +7,12 @@ using static Constants;
 public class GameManager: Singleton<GameManager>
 {
     [SerializeField] private GameObject playerPrefab;
+
+    public Canvas Canvas => GetCanvas();
     
     public EGameState GameState { get; private set; }
     
     private GameObject _player;
-    private Canvas _canvas;
     private bool _isCursorLock;
 
     public void SetCursorLock()
@@ -37,7 +38,7 @@ public class GameManager: Singleton<GameManager>
         
         // 로딩 화면 띄우기
         var loadingPanelPrefab = Resources.Load<GameObject>("Loading Panel");
-        var loadingPanelObject = Instantiate(loadingPanelPrefab, _canvas.transform);
+        var loadingPanelObject = Instantiate(loadingPanelPrefab, Canvas.transform);
         var loadingPanelController = loadingPanelObject.GetComponent<LoadingPanelController>();
         
         // 로딩 창 표시
@@ -66,8 +67,6 @@ public class GameManager: Singleton<GameManager>
     
     protected override void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        _canvas = GetCanvas();
-        
         switch (scene.name)
         {
             case "Main":
@@ -83,8 +82,14 @@ public class GameManager: Singleton<GameManager>
                 if (_player)
                 {
                     _player.SetActive(true);
+                    Debug.Log($"spawnPoint :  {spawnPoint.position}");
+                    Debug.Log($"_player :  {_player.transform.position}");
+                    
                     _player.transform.position = spawnPoint.position;
                     _player.transform.rotation = spawnPoint.rotation;
+                    
+                    Debug.Log($"spawnPoint :  {spawnPoint.position}");
+                    Debug.Log($"_player :  {_player.transform.position}");
                 }
                 else
                 {
@@ -99,7 +104,6 @@ public class GameManager: Singleton<GameManager>
 
     protected override void OnSceneUnloaded(Scene scene)
     {
-        _canvas = null;
         _player.SetActive(false);
     }
     

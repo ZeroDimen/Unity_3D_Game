@@ -1483,6 +1483,7 @@ GameObject:
   - component: {fileID: 1967255312514402401}
   - component: {fileID: 3456930562596116881}
   - component: {fileID: 524475939129993311}
+  - component: {fileID: 2008549216378722057}
   m_Layer: 8
   m_Name: Chomper
   m_TagString: Untagged
@@ -1550,7 +1551,11 @@ MonoBehaviour:
   chaseWaitTime: 1
   detectionSightAngle: 30
   minimumRunDistance: 2
-  attackWaitTime: 1
+  attackWaitTime: 0
+  enemyStatus:
+    maxHp: 100
+    hp: 100
+    attackPower: 10
 --- !u!195 &1967255312514402401
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -1614,6 +1619,19 @@ MonoBehaviour:
   targetLayerMask:
     serializedVersion: 2
     m_Bits: 128
+--- !u!114 &2008549216378722057
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4880172003961077846}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 69ec7f0e491988542a2661b6eef70a61, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::HPBarController
+  hpBarPrefab: {fileID: 6199270345849456823, guid: b3480aa242c16624ebd8a6a78b1643b3, type: 3}
 --- !u!1 &4898778704498476441
 GameObject:
   m_ObjectHideFlags: 0
