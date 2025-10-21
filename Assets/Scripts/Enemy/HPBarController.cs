@@ -1,6 +1,6 @@
 using System;
+using System.Collections;
 using UnityEngine;
-using Screen = UnityEngine.Device.Screen;
 
 public class HPBarController : MonoBehaviour
 {
@@ -8,37 +8,64 @@ public class HPBarController : MonoBehaviour
     
     private HpBar _hpBar;
     private Canvas _canvas;
-    private Transform _hpBarRectTransform;
+    private RectTransform _hpBarRectTransform;
     private Camera _camera;
     private Vector3 _offset;
+    
+    private Coroutine _hideHPBarCoroutine;
+    private WaitForSeconds _waitSeconds = new WaitForSeconds(1f);
 
     private void Start()
     {
-        _camera =  Camera.main;
+        _camera = Camera.main;
         _canvas = GameManager.Instance.Canvas;
         _hpBar = Instantiate(hpBarPrefab, _canvas.transform).GetComponent<HpBar>();
-        _hpBarRectTransform =  _hpBar.GetComponent<RectTransform>();
+        _hpBarRectTransform = _hpBar.GetComponent<RectTransform>();
         _offset = new Vector3(0, 1.5f, 0);
+        
+        SetActiveHPBar(false);
     }
 
     public void SetHp(float hp)
     {
         _hpBar.SetHPGauge(hp);
+        SetActiveHPBar(true);
+
+        if (_hideHPBarCoroutine != null)
+        {
+            StopCoroutine(_hideHPBarCoroutine);
+        }
+        _hideHPBarCoroutine = StartCoroutine(HideHPBarAfterDelay(1f));
     }
 
-    public void LateUpdate()
+    IEnumerator HideHPBarAfterDelay(float delay)
     {
-        var screenPostion = _camera.WorldToScreenPoint(transform.position + _offset);
-
-        bool isVisible = screenPostion.z > 0
-            && screenPostion.x > 0 && screenPostion.x < Screen.width
-            && screenPostion.y > 0 && screenPostion.y < Screen.height;
+        yield return _waitSeconds;
+        SetActiveHPBar(false);
         
-        _hpBar.gameObject.SetActive(isVisible);
+        _hideHPBarCoroutine = null;
+    }
 
+    public void SetActiveHPBar(bool isActive)
+    {
+        _hpBar.gameObject.SetActive(isActive);
+    }
+
+    private void LateUpdate()
+    {
+        var screenPosition = _camera.WorldToScreenPoint(transform.position + _offset);
+        
+        bool isVisible = screenPosition.z > 0 
+                         && screenPosition.x > 0 && screenPosition.x < Screen.width
+                         && screenPosition.y > 0 && screenPosition.y < Screen.height;
+        
         if (isVisible)
         {
-            _hpBarRectTransform.position = screenPostion;
+            _hpBarRectTransform.position = screenPosition;
+        }
+        else
+        {
+            SetActiveHPBar(false);
         }
     }
 }

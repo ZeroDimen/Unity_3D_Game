@@ -7,7 +7,7 @@ using static Constants;
 public class GameManager: Singleton<GameManager>
 {
     [SerializeField] private GameObject playerPrefab;
-
+    
     public Canvas Canvas => GetCanvas();
     
     public EGameState GameState { get; private set; }
@@ -24,6 +24,11 @@ public class GameManager: Singleton<GameManager>
 
     public void SetGameState(EGameState state)
     {
+        if (state == EGameState.Pause)
+        {
+            _player.GetComponent<PlayerController>().SetState(EPlayerState.Idle);
+        }
+        
         GameState = state;
     }
 
@@ -34,7 +39,8 @@ public class GameManager: Singleton<GameManager>
 
     private IEnumerator LoadSceneAsync(ESceneName sceneName)
     {
-        GameState = EGameState.Pause;
+        // GameState = EGameState.Pause;
+        SetGameState(EGameState.Pause);
         
         // 로딩 화면 띄우기
         var loadingPanelPrefab = Resources.Load<GameObject>("Loading Panel");
@@ -78,18 +84,13 @@ public class GameManager: Singleton<GameManager>
                 break;
             case "Stage01":
             case "Stage02":
+            case "Stage02 - 1":
                 var spawnPoint = GameObject.FindGameObjectWithTag("SpawnPoint").transform;
                 if (_player)
                 {
-                    _player.SetActive(true);
-                    Debug.Log($"spawnPoint :  {spawnPoint.position}");
-                    Debug.Log($"_player :  {_player.transform.position}");
-                    
                     _player.transform.position = spawnPoint.position;
                     _player.transform.rotation = spawnPoint.rotation;
-                    
-                    Debug.Log($"spawnPoint :  {spawnPoint.position}");
-                    Debug.Log($"_player :  {_player.transform.position}");
+                    _player.SetActive(true);
                 }
                 else
                 {
@@ -99,7 +100,8 @@ public class GameManager: Singleton<GameManager>
                 break;
         }
 
-        GameState = EGameState.Play;
+        // GameState = EGameState.Play;
+        SetGameState(EGameState.Play);
     }
 
     protected override void OnSceneUnloaded(Scene scene)

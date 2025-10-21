@@ -635,7 +635,7 @@ AnimatorController:
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
-    m_DefaultBool: 0
+    m_DefaultBool: 1
     m_Controller: {fileID: 9100000}
   - m_Name: hit_x
     m_Type: 1
@@ -1134,12 +1134,12 @@ AnimatorStateMachine:
   - {fileID: 3976475489539681221}
   m_EntryTransitions: []
   m_StateMachineTransitions:
-  - first: {fileID: -4049143404794507209}
-    second:
-    - {fileID: 1637320121515621037}
   - first: {fileID: -9175742047762196702}
     second:
     - {fileID: -5210373077727663968}
+  - first: {fileID: -4049143404794507209}
+    second:
+    - {fileID: 1637320121515621037}
   m_StateMachineBehaviours: []
   m_AnyStatePosition: {x: 40, y: 250, z: 0}
   m_EntryPosition: {x: 50, y: 120, z: 0}
